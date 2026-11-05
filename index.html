@@ -134,12 +134,12 @@
       <div class="hint">Carets: one per position report (about once a minute), pointing the way the bike was heading
         as it arrived there. No connecting lines are drawn, so nothing cuts across blocks.</div>
     </fieldset>
-    <fieldset><legend>Path colour</legend>
-      <div class="chips" id="f-mode" role="group" aria-label="Path colour mode">
+    <fieldset><legend>Path color</legend>
+      <div class="chips" id="f-mode" role="group" aria-label="Path color mode">
         <button class="chip" type="button" data-mode="plain" aria-pressed="true">Plain</button>
         <button class="chip" type="button" data-mode="speed" aria-pressed="false">Speed between points</button>
       </div>
-      <div class="hint">Speed mode colours every hop between two position reports (about a minute of riding) by its
+      <div class="hint">Speed mode colors every hop between two position reports (about a minute of riding) by its
         average speed, excluding time paused at a point. Hops are straight lines, so winding stretches read a little slow.</div>
     </fieldset>
 
@@ -162,8 +162,8 @@
       <div class="row"><input type="number" id="f-smin" min="0" step="1" placeholder="min" aria-label="Minimum speed km/h"><span class="sep">–</span><input type="number" id="f-smax" min="0" step="1" placeholder="max" aria-label="Maximum speed km/h"></div>
       <div class="hint">Path distance ÷ time from first movement to arrival.</div>
     </fieldset>
-    <fieldset><legend>Origin neighbourhood</legend><select id="f-o" aria-label="Origin neighbourhood"></select></fieldset>
-    <fieldset><legend>Destination neighbourhood</legend><select id="f-d" aria-label="Destination neighbourhood"></select></fieldset>
+    <fieldset><legend>Origin neighborhood</legend><select id="f-o" aria-label="Origin neighborhood"></select></fieldset>
+    <fieldset><legend>Destination neighborhood</legend><select id="f-d" aria-label="Destination neighborhood"></select></fieldset>
 
     <fieldset><legend id="list-title">Trips</legend>
       <table><thead><tr><th>Start</th><th>Route</th><th class="num">km</th><th class="num">min</th></tr></thead><tbody id="list"></tbody></table>
@@ -177,7 +177,7 @@
       <button type="button" data-bm="map" aria-pressed="true">Map</button>
       <button type="button" data-bm="aerial" aria-pressed="false"
         title="Cuyahoga County 2026 spring aerial imagery, from zoom 10 in (the dark map shows when zoomed further out)">Aerial</button>
-      <button type="button" data-bm="none" aria-pressed="false" title="No basemap: paths, neighbourhoods and the city boundary on a plain dark background">None</button>
+      <button type="button" data-bm="none" aria-pressed="false" title="No basemap: paths, neighborhoods and the city boundary on a plain dark background">None</button>
       <label class="dim" id="dimwrap" hidden title="Imagery brightness: dimmed by default so trip paths stand out">Imagery
         <input type="range" id="f-dim" min="0.15" max="1" step="0.05" value="0.45" aria-label="Aerial imagery brightness"></label>
     </div>
@@ -186,7 +186,7 @@
         <div class="ramp-lbl" id="leg-ramp-lbl"></div>
         <div style="margin-top:2px"><i style="border-top:2px solid #6f6e69"></i>No moving time recorded</div></div>
       <div><i style="border-top:2px solid #f0efec"></i>City of Cleveland</div>
-      <div><i style="border-top:1px dashed #c4c3be"></i>Neighbourhoods</div></div>
+      <div><i style="border-top:1px dashed #c4c3be"></i>Neighborhoods</div></div>
     <div class="tip" id="tip"></div>
     <div class="pick" id="pick"></div>
   </div>
@@ -239,7 +239,7 @@
     speed[i] = T.dist[i] / T.dur[i] * 3.6;
   }
 
-  // ---- speed mode: colour each hop by its speed (km/h), dark -> light = slow -> fast on the dark basemap
+  // ---- speed mode: color each hop by its speed (km/h), dark -> light = slow -> fast on the dark basemap
   const SPEED_EDGES = [5, 10, 15, 20, 25, 30];
   const SPEED_COLORS = ['#8f3a17', '#b2461b', '#d55424', '#eb6834', '#f18a5e', '#f6ae8d', '#fbd5c2'];
   const SPEED_UNKNOWN = '#6f6e69';
@@ -263,11 +263,11 @@
     return (hopCache[i] = out);
   }
   const fastestHop = i => Math.max(-1, ...T.hs[i].flat());
-  let mode = 'plain';   // colour: plain | speed
+  let mode = 'plain';   // color: plain | speed
   let geom = 'lines';   // drawing: lines | carets
 
   // ---- caret mode: one point per position report, rotated to the heading of the hop that arrived there
-  // (the first point uses the hop leaving it); coloured by that hop's speed in speed mode
+  // (the first point uses the hop leaving it); colored by that hop's speed in speed mode
   const caretCache = new Array(N);
   function caretFeatures(i) {
     if (caretCache[i]) return caretCache[i];
@@ -370,7 +370,7 @@
     b.onclick = () => { vtOn.has(k) ? vtOn.delete(k) : vtOn.add(k); b.setAttribute('aria-pressed', vtOn.has(k)); update(); };
     $('f-vt').appendChild(b);
   });
-  // neighbourhood dropdowns: fixed order (busiest overall first); counts are refreshed after every
+  // neighborhood dropdowns: fixed order (busiest overall first); counts are refreshed after every
   // filter change by updateHoodCounts() with the faceted counts computed in filter()
   const oCount = new Int32Array(HOODS.length), dCount = new Int32Array(HOODS.length);
   function fillHoods(sel, arr) {
@@ -441,7 +441,7 @@
       if (dmax !== null && km > dmax) continue;
       if (smin !== null && speed[i] < smin) continue;
       if (smax !== null && speed[i] > smax) continue;
-      // faceted counts: each neighbourhood dropdown counts trips that pass every OTHER filter,
+      // faceted counts: each neighborhood dropdown counts trips that pass every OTHER filter,
       // so picking an origin updates the destination counts and vice versa
       const oOk = o === null || T.o[i] === o, dOk = d === null || T.d[i] === d;
       if (dOk) oCount[T.o[i]]++;
@@ -625,7 +625,7 @@
   let rawFor = null, rawRows = [];
   const PHASE = { before: ['Parked, before ride', '#c4c3be'], ride: ['Ride', '#ffffff'], after: ['After arrival', '#f6ae8d'], newid: ['New id at destination', '#6da7ec'] };
   const fmtClock = new Intl.DateTimeFormat('en-US', { timeZone: 'America/New_York', hour: 'numeric', minute: '2-digit', second: '2-digit' });
-  const metres = (a, b) => Math.hypot((b[3] - a[3]) * 111320 * Math.cos(a[2] * Math.PI / 180), (b[2] - a[2]) * 110574);
+  const meters = (a, b) => Math.hypot((b[3] - a[3]) * 111320 * Math.cos(a[2] * Math.PI / 180), (b[2] - a[2]) * 110574);
   async function loadChunk(c) {
     if (!rawChunks[c]) {
       const url = `${D.meta.raw_dir}/raw_${String(c).padStart(3, '0')}.json`;
@@ -658,7 +658,7 @@
     rawRows = tr.rows.map(r => {
       const [t, slot] = r;
       const phase = slot === 1 ? 'newid' : t < rideStart ? 'before' : t >= arrive ? 'after' : 'ride';
-      const moved = prev[slot] ? metres(prev[slot], r) : null; prev[slot] = r;
+      const moved = prev[slot] ? meters(prev[slot], r) : null; prev[slot] = r;
       return { r, phase, moved };
     });
     map.getSource('raw').setData({ type: 'FeatureCollection', features: rawRows.map((x, k) => ({ type: 'Feature',
@@ -703,7 +703,7 @@
   // ---- events
   ['f-from', 'f-to', 'f-hfrom', 'f-hto', 'f-dmin', 'f-dmax', 'f-smin', 'f-smax', 'f-o', 'f-d'].forEach(id => $(id).addEventListener('input', () => update()));
   $('reset').onclick = () => {
-    // reset filters only: keep the basemap, drawing style and colour mode
+    // reset filters only: keep the basemap, drawing style and color mode
     const keep = new URLSearchParams(); if (mode === 'speed') keep.set('mode', 'speed'); if (geom === 'carets') keep.set('geom', 'carets');
     if (bm !== 'map') keep.set('bm', bm);
     history.replaceState(null, '', '#' + keep.toString());
